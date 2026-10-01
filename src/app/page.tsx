@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductList from '@/components/ProductList';
-import ProductFilters from '@/components/ProductFilters';
 
 // 3. We would like to see if you are aware of Server Side Rendering ( SSR )
 // Using Server Component to fetch data for SSR
