@@ -6,16 +6,25 @@ import ProductList from '@/components/ProductList';
 // 3. We would like to see if you are aware of Server Side Rendering ( SSR )
 // Using Server Component to fetch data for SSR
 async function getProducts() {
-  const res = await fetch('https://fakestoreapi.com/products', {
-    // Next.js cache configuration for SSR behavior
-    cache: 'no-store' // ensures fresh data on each request (SSR)
-  });
-  
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
+  try {
+    const res = await fetch('https://fakestoreapi.com/products', {
+      cache: 'no-store',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MyApp/1.0)',
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      console.error('Products fetch failed:', res.status);
+      return [];
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error('Products fetch error:', err);
+    return [];
   }
-  
-  return res.json();
 }
 
 export default async function Home() {
@@ -24,7 +33,7 @@ export default async function Home() {
   return (
     <>
       <Header />
-      
+
       <main className="container">
         <div className="breadcrumbs mobile-only">HOME &nbsp;|&nbsp; <span>SHOP</span></div>
         <section className="banner">
